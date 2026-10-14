@@ -1,0 +1,6 @@
+{
+  "name": "DessertLabs - Artisan Cakes & Pastries in Ilorin",
+  "description": "Product catalogue and WhatsApp direct ordering for DessertLabs in Ilorin, Nigeria. Cakes, pastries, desserts, and catering.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
