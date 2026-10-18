@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Product } from '../data/products';
 import { buildWhatsAppUrl, getActiveConfig } from '../config';
 import { WhatsAppIcon } from './Icons';
-import { X, Plus, Minus, Calendar, ShoppingBag, Check } from 'lucide-react';
+import { X, Plus, Minus, Calendar, ShoppingBag, Check, Upload } from 'lucide-react';
 import { useOrderTray } from '../context/OrderTrayContext';
+import { getProductImage, saveProductImageLocally } from '../utils/imageStorage';
 
 interface ProductModalProps {
   product: Product | null;
@@ -18,6 +19,7 @@ export const ProductModal: React.FC<ProductModalProps> = ({ product, onClose }) 
   const [preferredDate, setPreferredDate] = useState<string>('');
   const [additionalNotes, setAdditionalNotes] = useState<string>('');
   const [addedToTrayFeedback, setAddedToTrayFeedback] = useState(false);
+  const [resolvedImage, setResolvedImage] = useState<string | undefined>(() => product ? getProductImage(product) : undefined);
   const [imageError, setImageError] = useState(false);
 
   const { addToTray } = useOrderTray();
@@ -33,6 +35,7 @@ export const ProductModal: React.FC<ProductModalProps> = ({ product, onClose }) 
       setPreferredDate('');
       setAdditionalNotes('');
       setAddedToTrayFeedback(false);
+      setResolvedImage(getProductImage(product));
       setImageError(false);
       // Lock body scroll
       document.body.style.overflow = 'hidden';
@@ -133,9 +136,9 @@ export const ProductModal: React.FC<ProductModalProps> = ({ product, onClose }) 
           <div className="grid grid-cols-1 sm:grid-cols-12 gap-4 items-start">
             
             <div className="sm:col-span-5 aspect-[4/3] rounded-xl overflow-hidden bg-[#F8F1E7] border border-[#4B2E24]/10 relative">
-              {!imageError && product.imagePath ? (
+              {!imageError && resolvedImage ? (
                 <img
-                  src={product.imagePath}
+                  src={resolvedImage}
                   alt={product.name}
                   onError={() => setImageError(true)}
                   className="w-full h-full object-cover object-center"
@@ -143,14 +146,39 @@ export const ProductModal: React.FC<ProductModalProps> = ({ product, onClose }) 
               ) : (
                 <div className="w-full h-full flex flex-col items-center justify-center p-3 text-center bg-[#F8F1E7]/80">
                   <div className="w-10 h-10 rounded-full border border-[#B9855A]/50 flex items-center justify-center text-[#4B2E24] font-serif text-lg font-bold mb-1">
-                    {product.name.charAt(0)}
+                    {product.name?.charAt(0) || 'D'}
                   </div>
                   <span className="text-[10px] uppercase tracking-wider text-[#B9855A] font-medium">
                     DessertLabs
                   </span>
                   <span className="text-[10px] text-[#4B2E24]/50 mt-1 font-mono">
-                    {product.imagePath}
+                    {product.imagePath || 'Photo Pending'}
                   </span>
+                  <label 
+                    className="mt-2 text-[10px] font-medium text-[#4B2E24] hover:text-[#2B1B16] cursor-pointer inline-flex items-center gap-1 bg-[#FFFDF8] px-2.5 py-1 rounded-md border border-[#4B2E24]/20 shadow-xs"
+                  >
+                    <Upload className="w-3 h-3 text-[#B9855A]" />
+                    <span>Attach Photo</span>
+                    <input 
+                      type="file" 
+                      accept="image/*" 
+                      className="hidden" 
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          const reader = new FileReader();
+                          reader.onload = () => {
+                            const result = reader.result as string;
+                            saveProductImageLocally(product.id, result);
+                            if (product.imagePath) saveProductImageLocally(product.imagePath, result);
+                            setResolvedImage(result);
+                            setImageError(false);
+                          };
+                          reader.readAsDataURL(file);
+                        }
+                      }}
+                    />
+                  </label>
                 </div>
               )}
             </div>

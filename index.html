@@ -1,6 +1,70 @@
 <!doctype html>
 <html lang="en" class="scroll-smooth">
   <head>
+    <script>
+      /* Guard against third-party browser extension collisions (e.g. Zerion, MetaMask, etc.) */
+      (function() {
+        try {
+          const origDefProp = Object.defineProperty;
+          Object.defineProperty = function (target, prop, descriptor) {
+            try {
+              if (descriptor && typeof descriptor === 'object' && descriptor.configurable === false) {
+                descriptor = Object.assign({}, descriptor, { configurable: true });
+              }
+              return origDefProp.call(Object, target, prop, descriptor);
+            } catch (err) {
+              if (err && String(err.message || '').includes('Cannot redefine property')) {
+                try {
+                  if (descriptor && 'value' in descriptor) {
+                    target[prop] = descriptor.value;
+                  }
+                } catch (_) {}
+                return target;
+              }
+              throw err;
+            }
+          };
+        } catch (_) {}
+
+        function isExtError(msg, src) {
+          const m = String(msg || '');
+          const s = String(src || '');
+          return s.includes('chrome-extension://') || 
+                 s.includes('moz-extension://') || 
+                 s.includes('content-script') ||
+                 m.includes('isZerion') || 
+                 m.includes('Cannot redefine property');
+        }
+
+        window.addEventListener('error', function (event) {
+          if (isExtError(event.message, event.filename)) {
+            event.stopImmediatePropagation();
+            event.preventDefault();
+            return true;
+          }
+        }, true);
+
+        window.addEventListener('unhandledrejection', function (event) {
+          const reason = event.reason;
+          const msg = (reason && (reason.message || reason.stack)) || String(reason || '');
+          if (isExtError(msg, '')) {
+            event.stopImmediatePropagation();
+            event.preventDefault();
+          }
+        }, true);
+
+        const prevOnError = window.onerror;
+        window.onerror = function (msg, url, line, col, error) {
+          if (isExtError(msg, url)) {
+            return true;
+          }
+          if (prevOnError) {
+            return prevOnError.apply(this, arguments);
+          }
+          return false;
+        };
+      })();
+    </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>DessertLabs - Artisan Cakes & Pastries in Ilorin</title>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { getActiveConfig, saveActiveConfig, buildWhatsAppUrl } from '../config';
 import { Product, getCatalogueProducts, saveCatalogueProducts } from '../data/products';
 import { X, Check, Copy, ExternalLink, Info, Phone, Video, Image as ImageIcon, Plus, Trash2, Tag } from 'lucide-react';
@@ -33,6 +33,17 @@ export const ConfigGuideModal: React.FC<ConfigGuideModalProps> = ({
   const [newProductImage, setNewProductImage] = useState('');
   const [newProductCustomizable, setNewProductCustomizable] = useState(false);
   const [productSavedSuccess, setProductSavedSuccess] = useState(false);
+
+  useEffect(() => {
+    if (isOpen) {
+      setProductsList(getCatalogueProducts());
+      const cfg = getActiveConfig();
+      setWhatsappNumber(cfg.whatsappNumber);
+      setTiktokUrl(cfg.tiktokUrl);
+      setTiktokHandle(cfg.tiktokHandle);
+      setLogoUrl(cfg.logoUrl);
+    }
+  }, [isOpen]);
 
   if (!isOpen) return null;
 

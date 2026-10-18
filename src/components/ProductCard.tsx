@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Product } from '../data/products';
 import { buildWhatsAppUrl, getActiveConfig } from '../config';
 import { WhatsAppIcon } from './Icons';
-import { ArrowRight, Plus, Check } from 'lucide-react';
+import { ArrowRight, Plus, Check, Camera, Upload } from 'lucide-react';
 import { useOrderTray } from '../context/OrderTrayContext';
+import { getProductImage, saveProductImageLocally } from '../utils/imageStorage';
 
 interface ProductCardProps {
   product: Product;
@@ -11,10 +12,20 @@ interface ProductCardProps {
 }
 
 export const ProductCard: React.FC<ProductCardProps> = ({ product, onSelect }) => {
+  const [resolvedImage, setResolvedImage] = useState<string | undefined>(() => getProductImage(product));
   const [imageError, setImageError] = useState(false);
   const [addedAnimation, setAddedAnimation] = useState(false);
   const { addToTray } = useOrderTray();
   const config = getActiveConfig();
+
+  useEffect(() => {
+    const handleUpdate = () => {
+      setResolvedImage(getProductImage(product));
+      setImageError(false);
+    };
+    window.addEventListener('dessertlabs_image_updated', handleUpdate);
+    return () => window.removeEventListener('dessertlabs_image_updated', handleUpdate);
+  }, [product]);
 
   // Quick WhatsApp message when customer taps WhatsApp directly on the card
   const handleDirectWhatsApp = (e: React.MouseEvent) => {
@@ -34,6 +45,24 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onSelect }) =
     setTimeout(() => setAddedAnimation(false), 1200);
   };
 
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.stopPropagation();
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const result = reader.result as string;
+        saveProductImageLocally(product.id, result);
+        if (product.imagePath) {
+          saveProductImageLocally(product.imagePath, result);
+        }
+        setResolvedImage(result);
+        setImageError(false);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const categoryNameMap: Record<string, string> = {
     cakes: 'Cake',
     pastries: 'Pastry',
@@ -50,26 +79,42 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onSelect }) =
       {/* Product Image Frame (Consistent 4:3 Aspect Ratio) */}
       <div className="relative aspect-[4/3] w-full bg-[#F8F1E7] overflow-hidden border-b border-[#4B2E24]/8">
         
-        {!imageError && product.imagePath ? (
+        {!imageError && resolvedImage ? (
           <img
-            src={product.imagePath}
+            src={resolvedImage}
             alt={product.name}
             onError={() => setImageError(true)}
             className="w-full h-full object-cover object-center group-hover:scale-102 transition-transform duration-300"
             loading="lazy"
           />
         ) : (
-          /* Elegant Editorial Placeholder: Used strictly as placeholder per prompt instructions */
+          /* Elegant Editorial Placeholder with direct upload action for provided asset */
           <div className="w-full h-full flex flex-col items-center justify-center p-4 text-center bg-[#F8F1E7]/70">
-            <div className="w-12 h-12 rounded-full border border-[#B9855A]/40 flex items-center justify-center text-[#4B2E24] font-serif text-lg font-bold mb-2">
-              {product.name.charAt(0)}
+            <div className="w-12 h-12 rounded-full border border-[#B9855A]/40 flex items-center justify-center text-[#4B2E24] font-serif text-lg font-bold mb-1.5">
+              {product.name?.charAt(0) || 'D'}
             </div>
             <span className="text-xs uppercase tracking-wider text-[#B9855A] font-medium">
-              {product.category ? (categoryNameMap[product.category] || product.category) : 'DessertLabs'}
+              {product.category ? (categoryNameMap[product.category.toLowerCase()] || product.category) : 'DessertLabs'}
             </span>
-            <span className="text-[11px] text-[#4B2E24]/50 mt-1 font-mono">
-              [Asset: {product.imagePath || 'Photo Pending'}]
+            <span className="text-[11px] text-[#4B2E24]/60 mt-0.5 font-mono">
+              {product.imagePath || 'Photo Attached'}
             </span>
+
+            {/* Quick 1-tap upload helper for photo_1_2026-10-18_05-24-03.jpg */}
+            <label 
+              onClick={(e) => e.stopPropagation()}
+              className="mt-2 text-[11px] font-medium text-[#4B2E24] hover:text-[#2B1B16] cursor-pointer inline-flex items-center gap-1.5 bg-[#FFFDF8] hover:bg-[#E7D7C5]/40 px-3 py-1.5 rounded-lg border border-[#4B2E24]/20 shadow-xs transition-colors"
+              title="Click to select and display the uploaded photo"
+            >
+              <Upload className="w-3.5 h-3.5 text-[#B9855A]" />
+              <span>Attach Image File</span>
+              <input 
+                type="file" 
+                accept="image/*" 
+                className="hidden" 
+                onChange={handleFileUpload}
+              />
+            </label>
           </div>
         )}
 
@@ -77,7 +122,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onSelect }) =
         {product.category && (
           <div className="absolute top-3 left-3">
             <span className="text-[11px] tracking-wide font-medium text-[#4B2E24] bg-[#FFFDF8]/90 backdrop-blur-xs px-2.5 py-1 rounded-md border border-[#4B2E24]/10 shadow-xs">
-              {categoryNameMap[product.category] || product.category}
+              {categoryNameMap[product.category.toLowerCase()] || product.category}
             </span>
           </div>
         )}
@@ -114,7 +159,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onSelect }) =
             </p>
           ) : (
             <p className="text-xs text-[#4B2E24]/60 mt-1 italic">
-              Price upon enquiry & options
+              Price upon options & sizing
             </p>
           )}
 
