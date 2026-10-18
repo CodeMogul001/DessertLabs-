@@ -8,7 +8,7 @@ export interface Product {
   id: string;
   name: string;
   category?: string;
-  imagePath?: string; // Path to uploaded asset, e.g. "/photo_2_2026-10-18_05-24-03.jpg"
+  imagePath?: string; // Path to uploaded asset, e.g. "/photo_5_2026-10-18_05-24-03.jpg"
   price?: string; // Optional: specify if confirmed, e.g. "₦15,000" or leave undefined
   description?: string; // Optional short description
   customizable?: boolean;
@@ -52,9 +52,91 @@ export const INITIAL_PRODUCTS: Product[] = [
     minNotice: "Kindly order 48 hours in advance",
     isAvailable: true,
   },
+  {
+    id: "food-box",
+    name: "Food Box",
+    category: "Food & Meals",
+    imagePath: "/photo_7_2026-10-18_05-24-03.jpg",
+    description: "Complete celebration feast hamper featuring delicious fried rice, seasoned chicken, fresh sides, fruit, refreshing beverage, and a custom mini frosted Bento cake.",
+    customizable: true,
+    availableSizes: ["Standard Celebration Food Box", "Deluxe Food Box"],
+    allowCustomMessage: true,
+    allowDateSelection: true,
+    minNotice: "Kindly order 24-48 hours in advance",
+    isAvailable: true,
+  },
+  {
+    id: "small-foil-cake",
+    name: "Small Foil Cake",
+    category: "Cakes",
+    imagePath: "/photo_8_2026-10-18_05-24-03.jpg",
+    description: "Freshly baked golden sponge cake in an individual foil container. Moist, fluffy, and perfect for quick cravings, tea time, or party souvenirs.",
+    customizable: true,
+    availableSizes: ["Small Foil (Individual Portion)"],
+    availableFlavours: ["Classic Vanilla Sponge", "Rich Chocolate", "Red Velvet"],
+    allowCustomMessage: true,
+    allowDateSelection: true,
+    minNotice: "Available for same-day delivery or advance order",
+    isAvailable: true,
+  },
+  {
+    id: "red-velvet-foil-cake",
+    name: "Red Velvet foil Cake",
+    category: "Cakes",
+    imagePath: "/photo_5_2026-10-18_05-24-03.jpg",
+    description: "Decadent, freshly baked deep-red velvet cake sealed in a foil container with the official DessertLab seal and spoon. Precision in every bite.",
+    customizable: true,
+    availableSizes: ["Foil Container (Standard)"],
+    availableFlavours: ["Signature Red Velvet"],
+    allowCustomMessage: true,
+    allowDateSelection: true,
+    minNotice: "Available for same-day delivery or advance order",
+    isAvailable: true,
+  },
+  {
+    id: "frosted-foil-cake",
+    name: "Frosted Foil Cake",
+    category: "Cakes",
+    imagePath: "/photo_6_2026-10-18_05-24-03.jpg",
+    description: "Delightful foil container cake decorated with smooth white frosting, piped rosette swirls, festive sprinkles, and edible shimmer.",
+    customizable: true,
+    availableSizes: ["Foil Container (Single Portion)"],
+    availableFlavours: ["Vanilla Sponge", "Rich Chocolate", "Red Velvet"],
+    allowCustomMessage: true,
+    allowDateSelection: true,
+    minNotice: "Available for same-day delivery or advance order",
+    isAvailable: true,
+  },
+  {
+    id: "big-foil-cake",
+    name: "Big Foil Cake",
+    category: "Cakes",
+    imagePath: "/photo_4_2026-10-18_05-24-03.jpg",
+    description: "Generously sized, freshly baked rich chocolate foil cake packaged with the official DessertLab seal and spoon. Precision in every bite.",
+    customizable: true,
+    availableSizes: ["Big Foil (Standard)"],
+    availableFlavours: ["Rich Chocolate", "Vanilla", "Red Velvet"],
+    allowCustomMessage: true,
+    allowDateSelection: true,
+    minNotice: "Available for same-day delivery or advance order",
+    isAvailable: true,
+  },
+  {
+    id: "money-bouquet",
+    name: "Money Bouquet",
+    category: "Special Orders",
+    imagePath: "/photo_3_2026-10-18_05-24-03.jpg",
+    description: "Handcrafted celebration money bouquet beautifully arranged with rose accents, premium designer wrapping, and personalized presentation.",
+    customizable: true,
+    availableSizes: ["Custom Denomination & Sizing"],
+    allowCustomMessage: true,
+    allowDateSelection: true,
+    minNotice: "Kindly order in advance to arrange preferred denominations",
+    isAvailable: true,
+  },
 ];
 
-const PRODUCTS_STORAGE_KEY = "dessertlabs_official_products_v4";
+const PRODUCTS_STORAGE_KEY = "dessertlabs_official_products_v11";
 
 export function getCatalogueProducts(): Product[] {
   if (typeof window === "undefined") return INITIAL_PRODUCTS;
@@ -63,6 +145,13 @@ export function getCatalogueProducts(): Product[] {
     localStorage.removeItem("dessertlabs_custom_products");
     localStorage.removeItem("dessertlabs_official_products_v2");
     localStorage.removeItem("dessertlabs_official_products_v3");
+    localStorage.removeItem("dessertlabs_official_products_v4");
+    localStorage.removeItem("dessertlabs_official_products_v5");
+    localStorage.removeItem("dessertlabs_official_products_v6");
+    localStorage.removeItem("dessertlabs_official_products_v7");
+    localStorage.removeItem("dessertlabs_official_products_v8");
+    localStorage.removeItem("dessertlabs_official_products_v9");
+    localStorage.removeItem("dessertlabs_official_products_v10");
     
     const saved = localStorage.getItem(PRODUCTS_STORAGE_KEY);
     if (saved) {

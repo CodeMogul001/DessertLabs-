@@ -4,11 +4,7 @@ import { WhatsAppIcon } from './Icons';
 import { getActiveConfig, buildWhatsAppUrl } from '../config';
 import { useOrderTray } from '../context/OrderTrayContext';
 
-interface HeaderProps {
-  onOpenSettings?: () => void;
-}
-
-export const Header: React.FC<HeaderProps> = ({ onOpenSettings }) => {
+export const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const config = getActiveConfig();
@@ -156,18 +152,6 @@ export const Header: React.FC<HeaderProps> = ({ onOpenSettings }) => {
                 <WhatsAppIcon className="w-5 h-5 text-[#FFFDF8]" />
                 <span>Order on WhatsApp</span>
               </button>
-
-              {onOpenSettings && (
-                <button
-                  onClick={() => {
-                    setMobileMenuOpen(false);
-                    onOpenSettings();
-                  }}
-                  className="w-full text-center text-xs text-[#4B2E24]/60 hover:text-[#4B2E24] py-1"
-                >
-                  Configure WhatsApp / Logo Settings
-                </button>
-              )}
             </div>
           </nav>
         </div>

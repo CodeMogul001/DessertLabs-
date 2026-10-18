@@ -1,13 +1,9 @@
 import React from 'react';
 import { getActiveConfig, buildWhatsAppUrl } from '../config';
 import { WhatsAppIcon, TikTokIcon } from './Icons';
-import { MapPin, ArrowUp, Settings } from 'lucide-react';
+import { MapPin, ArrowUp } from 'lucide-react';
 
-interface ContactFooterProps {
-  onOpenSettings?: () => void;
-}
-
-export const ContactFooter: React.FC<ContactFooterProps> = ({ onOpenSettings }) => {
+export const ContactFooter: React.FC = () => {
   const config = getActiveConfig();
 
   const handleWhatsAppChat = () => {
@@ -123,17 +119,6 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({ onOpenSettings }) 
           </div>
 
           <div className="flex items-center gap-4">
-            {onOpenSettings && (
-              <button
-                onClick={onOpenSettings}
-                className="flex items-center gap-1.5 hover:text-[#FFFDF8] text-[11px] transition-colors"
-                title="Business Settings & Asset Guide"
-              >
-                <Settings className="w-3.5 h-3.5 text-[#B9855A]" />
-                <span>Business Setup & Asset Guide</span>
-              </button>
-            )}
-
             <button
               onClick={scrollToTop}
               className="p-1.5 rounded-lg hover:bg-[#FFFDF8]/10 text-[#FFFDF8]/80 hover:text-[#FFFDF8] transition-colors"

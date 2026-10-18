@@ -7,10 +7,9 @@ import { Sparkles, MessageCircle } from 'lucide-react';
 
 interface CatalogueSectionProps {
   onSelectProduct: (product: Product) => void;
-  onOpenSettings?: () => void;
 }
 
-export const CatalogueSection: React.FC<CatalogueSectionProps> = ({ onSelectProduct, onOpenSettings }) => {
+export const CatalogueSection: React.FC<CatalogueSectionProps> = ({ onSelectProduct }) => {
   const products = useMemo(() => getCatalogueProducts(), []);
   const config = getActiveConfig();
 
@@ -75,15 +74,6 @@ export const CatalogueSection: React.FC<CatalogueSectionProps> = ({ onSelectProd
                 <WhatsAppIcon className="w-4 h-4 text-[#FFFDF8]" />
                 <span>Enquire or Order on WhatsApp</span>
               </button>
-
-              {onOpenSettings && (
-                <button
-                  onClick={onOpenSettings}
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#FFFDF8] hover:bg-[#F8F1E7] text-[#4B2E24] border border-[#4B2E24]/20 px-5 py-3.5 rounded-xl font-medium text-sm transition-all"
-                >
-                  <span>Manage Products</span>
-                </button>
-              )}
             </div>
 
           </div>
