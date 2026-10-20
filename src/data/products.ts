@@ -8,7 +8,7 @@ export interface Product {
   id: string;
   name: string;
   category?: string;
-  imagePath?: string; // Path to uploaded asset, e.g. "/photo_5_2026-10-18_05-24-03.jpg"
+  imagePath?: string; // Path to uploaded asset, e.g. "/images/red-velvet-foil-cake.jpg"
   price?: string; // Optional: specify if confirmed, e.g. "₦15,000" or leave undefined
   description?: string; // Optional short description
   customizable?: boolean;
@@ -83,7 +83,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     id: "red-velvet-foil-cake",
     name: "Red Velvet foil Cake",
     category: "Cakes",
-    imagePath: "/photo_5_2026-10-18_05-24-03.jpg",
+    imagePath: "/images/red-velvet-foil-cake.jpg",
     description: "Decadent, freshly baked deep-red velvet cake sealed in a foil container with the official DessertLab seal and spoon. Precision in every bite.",
     customizable: true,
     availableSizes: ["Foil Container (Standard)"],
