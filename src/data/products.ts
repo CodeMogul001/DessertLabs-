@@ -125,7 +125,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     id: "money-bouquet",
     name: "Money Bouquet",
     category: "Special Orders",
-    imagePath: "/photo_3_2026-10-18_05-24-03.jpg",
+    imagePath: "/images/money-bouquet.jpg",
     description: "Handcrafted celebration money bouquet beautifully arranged with rose accents, premium designer wrapping, and personalized presentation.",
     customizable: true,
     availableSizes: ["Custom Denomination & Sizing"],
