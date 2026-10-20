@@ -97,7 +97,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     id: "frosted-foil-cake",
     name: "Frosted Foil Cake",
     category: "Cakes",
-    imagePath: "/photo_6_2026-10-18_05-24-03.jpg",
+    imagePath: "/images/frosted-foil-cake.jpg",
     description: "Delightful foil container cake decorated with smooth white frosting, piped rosette swirls, festive sprinkles, and edible shimmer.",
     customizable: true,
     availableSizes: ["Foil Container (Single Portion)"],
