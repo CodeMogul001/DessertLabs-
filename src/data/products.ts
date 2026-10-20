@@ -111,7 +111,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     id: "big-foil-cake",
     name: "Big Foil Cake",
     category: "Cakes",
-    imagePath: "/photo_4_2026-10-18_05-24-03.jpg",
+    imagePath: "/images/big-foil-cake.jpg",
     description: "Generously sized, freshly baked rich chocolate foil cake packaged with the official DessertLab seal and spoon. Precision in every bite.",
     customizable: true,
     availableSizes: ["Big Foil (Standard)"],
