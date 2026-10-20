@@ -69,7 +69,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     id: "small-foil-cake",
     name: "Small Foil Cake",
     category: "Cakes",
-    imagePath: "/photo_8_2026-10-18_05-24-03.jpg",
+    imagePath: "/images/small-foil-cake.jpg",
     description: "Freshly baked golden sponge cake in an individual foil container. Moist, fluffy, and perfect for quick cravings, tea time, or party souvenirs.",
     customizable: true,
     availableSizes: ["Small Foil (Individual Portion)"],
