@@ -8,7 +8,7 @@ export interface Product {
   id: string;
   name: string;
   category?: string;
-  imagePath?: string; // Path to uploaded asset, e.g. "/images/red-velvet-foil-cake.jpg"
+  imagePath?: string; // Path to uploaded asset, e.g. "/images/small-foil-cake.jpg"
   price?: string; // Optional: specify if confirmed, e.g. "₦15,000" or leave undefined
   description?: string; // Optional short description
   customizable?: boolean;
