@@ -56,7 +56,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     id: "food-box",
     name: "Food Box",
     category: "Food & Meals",
-    imagePath: "/photo_7_2026-10-18_05-24-03.jpg",
+    imagePath: "/images/food-box.jpg",
     description: "Complete celebration feast hamper featuring delicious fried rice, seasoned chicken, fresh sides, fruit, refreshing beverage, and a custom mini frosted Bento cake.",
     customizable: true,
     availableSizes: ["Standard Celebration Food Box", "Deluxe Food Box"],
