@@ -42,7 +42,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     id: "box-of-treats-frame-cake",
     name: "Box of treats plus frame and 2 layers 6\" frosted cake",
     category: "Special Packages",
-    imagePath: "/photo_2_2026-10-18_05-24-03.jpg",
+    imagePath: "/images/box-of-treats.jpg",
     description: "Celebration gift hamper featuring an assorted treat box, personalized framed artwork/photo, and a freshly baked 2-layer 6\" frosted cake.",
     customizable: true,
     availableSizes: ["6-inch 2-Layer Cake + Treat Box + Frame"],
