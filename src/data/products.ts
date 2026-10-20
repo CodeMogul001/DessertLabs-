@@ -28,7 +28,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     id: "frosted-cakes",
     name: "Frosted Cakes",
     category: "Cakes",
-    imagePath: "/photo_1_2026-10-18_05-24-03.jpg",
+    imagePath: "/images/frosted-cakes.jpg",
     description: "Custom celebration frosted cake handcrafted with delicate frosting, custom lettering, and tailored birthday finish.",
     customizable: true,
     availableSizes: ["6-inch (Standard)", "8-inch (Medium)", "10-inch (Large)", "Bento Mini"],
